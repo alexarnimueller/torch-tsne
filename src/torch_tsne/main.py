@@ -7,37 +7,10 @@ import torch
 
 from torch_tsne import tsne
 
-PKG_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PKG_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
-def main(xfile, yfile, outfile, iter, perplex, lr, exager, seed, verbose):
-    X = torch.Tensor(np.loadtxt(xfile))
-    labels = np.loadtxt(yfile).tolist()
-
-    # confirm that x file get same number point than label file
-    assert len(X) == len(labels), "different number of datapoints and labels"
-
-    with torch.no_grad():
-        Y = tsne(
-            X,
-            max_iter=iter,
-            iter_explore=iter // 10,
-            perplexity=perplex,
-            lr=lr,
-            early_exager=exager,
-            seed=seed,
-            verbose=verbose,
-        )
-
-    plt.scatter(Y[:, 0], Y[:, 1], 20, labels)
-    plt.xticks([])
-    plt.yticks([])
-    plt.savefig(outfile, dpi=300)
-    if verbose:
-        print(f"Saved tSNE output to {outfile}")
-
-
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "-x",
@@ -55,7 +28,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "-o",
-        "--ouput",
+        "--output",
         type=str,
         default=f"{PKG_ROOT}/examples/pytorch.png",
         help="output image path",
@@ -74,14 +47,28 @@ if __name__ == "__main__":
     )
 
     args = parser.parse_args()
-    main(
-        args.xfile,
-        args.yfile,
-        args.ouput,
-        args.iter,
-        args.perplex,
-        args.lr,
-        args.exager,
-        args.seed,
-        args.verbose,
-    )
+
+    X = torch.Tensor(np.loadtxt(args.xfile))
+    labels = np.loadtxt(args.yfile).tolist()
+
+    # confirm that x file get same number point than label file
+    assert len(X) == len(labels), "different number of datapoints and labels"
+
+    with torch.no_grad():
+        Y = tsne(
+            X,
+            max_iter=args.iter,
+            iter_explore=args.iter // 10,
+            perplexity=args.perplex,
+            lr=args.lr,
+            early_exager=args.exager,
+            seed=args.seed,
+            verbose=args.verbose,
+        )
+
+    plt.scatter(Y[:, 0], Y[:, 1], 20, labels)
+    plt.xticks([])
+    plt.yticks([])
+    plt.savefig(args.output, dpi=300)
+    if args.verbose:
+        print(f"Saved tSNE output to {args.output}")

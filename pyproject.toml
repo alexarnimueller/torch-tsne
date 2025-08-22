@@ -1,11 +1,15 @@
 [project]
 name = "torch-tsne"
 version = "0.1.0"
-description = "Add your description here"
+description = "PyTorch-Powered tSNE"
 readme = "README.md"
 license = "MIT"
 license-files = ["LICEN[CS]E*"]
 requires-python = ">=3.12.6"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
 dependencies = [
     "matplotlib>=3.10.5",
     "numpy<2.1.0",
@@ -13,19 +17,25 @@ dependencies = [
     "tqdm>=4.67.1",
 ]
 
-[project.urls]
-Homepage = "https://github.com/alexarnimueller/torch-tsne"
-
 [dependency-groups]
-dev = [
+lint = [
     "black>=25.1.0",
     "flake8>=7.3.0",
     "isort>=6.0.1",
+]
+test = [
     "scikit-learn>=1.7.1",
 ]
+
+[project.urls]
+Homepage = "https://github.com/alexarnimueller/torch-tsne"
+
+[project.scripts]
+torch-tsne = "torch_tsne.main:main"
 
 [build-system]
 requires = ["setuptools>=61.0", "wheel"]
 
 [tool.setuptools]
-py-modules = ["torch_tsne"]
+package-dir = { "" = "src" }
+packages = ["torch_tsne"]

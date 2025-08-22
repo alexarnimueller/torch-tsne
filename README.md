@@ -4,15 +4,15 @@ A [pytorch](https://pytorch.org) implementation of the tSNE algorithm described 
 
 ## Installation
 
-Clone this repository and install the required packages using [uv](https://docs.astral.sh/uv) as follows:
+Clone this repository and install it plus the required packages using [uv](https://docs.astral.sh/uv) as follows:
 
 ```bash
-uv sync
+uv pip install -e .
 ```
 
-This will install the required packages defined in the `pyproject.toml` file (or if available, `uv.lock`).
+This will install a `torch-tsne` entrypoint and the required packages defined in the `pyproject.toml` file (or if available, `uv.lock`).
 
-To allow for importing `TorchTSNE` in other projects, add the path of the repository root to your PYTHONPATH as follows:
+To allow for importing `TorchTSNE` in other  projects without installation, just add the path of the repository root to your PYTHONPATH as follows:
 
 ```bash
 export PYTHONPATH=$PYTHONPATH:$(pwd)
@@ -20,10 +20,10 @@ export PYTHONPATH=$PYTHONPATH:$(pwd)
 
 ## How to use it
 
-To embed a dataset using `torch-tsne`, run `examples/run_tsne.py` given the desired input file and labels (and the `-v` verbose option to see what's happening under the hood):
+To embed a dataset using `torch-tsne` given the desired input file and labels (and the `-v` verbose option to see what's happening under the hood), run:
 
 ```bash
-python examples/run_tsne.py -x mnist2500_X.txt -y mnist2500_labels.txt -o examples/pytorch.png -v
+torch-tsne -x mnist2500_X.txt -y mnist2500_labels.txt -o images/pytorch.png -v
 
 Using random seed 42
 Using device cuda
@@ -35,7 +35,7 @@ Switching momentum to 0.8
 Error: 1.097:  100%|████████████████| 1000/1000 [00:04<00:00, 224.89it/s]
 ```
 
-The script will automatically detect if a CUDA enabled GPU is available and make use of it.
+The code will automatically detect if a CUDA enabled GPU is available and make use of it.
 
 ***Note:*** The input data should be normalized to the range [0.0, 1.0], otherwise you may get 'nan' results.
 
@@ -71,13 +71,13 @@ axes[0].set_title("Input")
 axes[1].scatter(Y[one, 0], Y[one, 1], c="#0ABAB5")
 axes[1].scatter(Y[two, 0], Y[two, 1], c="#FF2E63")
 axes[1].set_title("tSNE output")
-plt.savefig("examples/circles.png", dpi=150)
+plt.savefig("images/circles.png", dpi=150)
 plt.close(fig)
 ```
 
 The result should look something like this:
 
-![circles](examples/circles.png)
+![circles](images/circles.png)
 
 ## Credit
 
