@@ -23,7 +23,7 @@ export PYTHONPATH=$PYTHONPATH:$(pwd)
 To embed a dataset using `torch-tsne` given the desired input file and labels (and the `-v` verbose option to see what's happening under the hood), run:
 
 ```bash
-torch-tsne -x mnist2500_X.txt -y mnist2500_labels.txt -o images/pytorch.png -v
+torch-tsne -x data/mnist2500_X.txt -y data/mnist2500_labels.txt -o images/pytorch.png -v
 
 Using random seed 42
 Using device cuda

@@ -190,7 +190,7 @@ class TorchTSNE:
         max_iter=1000,
         iter_explore=100,
         initial_dims=50,
-        early_exager=12.0,
+        early_exager=4.0,
         lr=500.0,
         momentum_init=0.5,
         momentum_final=0.8,
