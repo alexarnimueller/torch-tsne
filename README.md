@@ -20,15 +20,24 @@ export PYTHONPATH=$PYTHONPATH:$(pwd)
 
 ## How to use it
 
-To embed a dataset using `torch-tsne`, run `torch_tsne.py` given the desired input file and labels (and the `-v` verbose option to see what's happening under the hood):
+To embed a dataset using `torch-tsne`, run `examples/run_tsne.py` given the desired input file and labels (and the `-v` verbose option to see what's happening under the hood):
 
 ```bash
-python torch_tsne.py -x mnist2500_X.txt -y mnist2500_labels.txt -v
+python examples/run_tsne.py -x mnist2500_X.txt -y mnist2500_labels.txt -o examples/pytorch.png -v
+
+Using random seed 42
+Using device cuda
+Running initial PCA...
+Computing initial p-values...
+Fitting tSNE...
+Error: 16.082:   8%|██              |   82/1000 [00:01<00:06, 131.19it/s]
+Switching momentum to 0.8
+Error: 1.097:  100%|████████████████| 1000/1000 [00:04<00:00, 224.89it/s]
 ```
 
 The script will automatically detect if a CUDA enabled GPU is available and make use of it.
 
-***Note:*** The input data should be normalized to the range [0.0, 1.0], otherwise you may get a 'nan' result.
+***Note:*** The input data should be normalized to the range [0.0, 1.0], otherwise you may get 'nan' results.
 
 ### Using the TorchTSNE Class
 
@@ -56,19 +65,19 @@ Y = tsne.fit_transform(X, verbose=True)
 # visualize and save the result
 one, two = y == 0, y == 1
 fig, axes = plt.subplots(1, 2, figsize=(9, 4))
-axes[0].scatter(X[one, 0], X[one, 1], c="b")
-axes[0].scatter(X[two, 0], X[two, 1], c="r")
+axes[0].scatter(X[one, 0], X[one, 1], c="#0ABAB5")
+axes[0].scatter(X[two, 0], X[two, 1], c="#FF2E63")
 axes[0].set_title("Input")
-axes[1].scatter(Y[one, 0], Y[one, 1], c="b")
-axes[1].scatter(Y[two, 0], Y[two, 1], c="r")
+axes[1].scatter(Y[one, 0], Y[one, 1], c="#0ABAB5")
+axes[1].scatter(Y[two, 0], Y[two, 1], c="#FF2E63")
 axes[1].set_title("tSNE output")
-plt.savefig("images/circles.png", dpi=150)
+plt.savefig("examples/circles.png", dpi=150)
 plt.close(fig)
 ```
 
 The result should look something like this:
 
-![circles](images/circles.png)
+![circles](examples/circles.png)
 
 ## Credit
 

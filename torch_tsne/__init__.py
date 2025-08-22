@@ -8,10 +8,6 @@ Based on tsne-pytorch created by Xiao Li on 23-03-2020.
 Copyright (c) 2020, 2021, 2025 Xiao Li, Palle Klewitz, Alex Müller.
 """
 
-import argparse
-
-import matplotlib.pyplot as plt
-import numpy as np
 import torch
 from tqdm import tqdm
 
@@ -227,70 +223,3 @@ class TorchTSNE:
                 verbose=verbose,
             )
         return self._embedding
-
-
-def main(xfile, yfile, iter, perplex, lr, exager, seed, verbose):
-    X = torch.Tensor(np.loadtxt(xfile))
-    labels = np.loadtxt(yfile).tolist()
-
-    # confirm that x file get same number point than label file
-    assert len(X) == len(labels), "different number of datapoints and labels"
-
-    with torch.no_grad():
-        Y = tsne(
-            X,
-            max_iter=iter,
-            iter_explore=iter // 10,
-            perplexity=perplex,
-            lr=lr,
-            early_exager=exager,
-            seed=seed,
-            verbose=verbose,
-        )
-
-    plt.scatter(Y[:, 0], Y[:, 1], 20, labels)
-    plt.xticks([])
-    plt.yticks([])
-    plt.savefig("images/pytorch.png", dpi=300)
-
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "-x",
-        "--xfile",
-        type=str,
-        default="data/mnist2500_X.txt",
-        help="file name of feature stored",
-    )
-    parser.add_argument(
-        "-y",
-        "--yfile",
-        type=str,
-        default="data/mnist2500_labels.txt",
-        help="file name of label stored",
-    )
-    parser.add_argument(
-        "-i", "--iter", type=int, help="number of iterations", default=1000
-    )
-    parser.add_argument("-p", "--perplex", type=float, help="perplexity", default=30.0)
-    parser.add_argument("-l", "--lr", type=float, help="learning rate", default=500.0)
-    parser.add_argument(
-        "-e", "--exager", type=float, help="early exageration", default=4.0
-    )
-    parser.add_argument("-s", "--seed", type=int, help="random seed", default=42)
-    parser.add_argument(
-        "-v", "--verbose", action="store_true", help="enable verbose output"
-    )
-
-    args = parser.parse_args()
-    main(
-        args.xfile,
-        args.yfile,
-        args.iter,
-        args.perplex,
-        args.lr,
-        args.exager,
-        args.seed,
-        args.verbose,
-    )
